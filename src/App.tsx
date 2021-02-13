@@ -1,7 +1,18 @@
 import logo from './logo.svg';
+import axios from "axios";
 import './App.css';
+import { useCallback } from 'react';
+
+const params = {
+  domain: "localhost:8080",
+  headers: {},
+  body: { username: "hello", password: "world" }
+}
 
 function App() {
+  const login = useCallback(() => {
+    axios.post(`http://${params.domain}/login`, params.body, { headers: params.headers }).then((res) => console.log(res))
+  }, [])
   return (
     <div className="App">
       <header className="App-header">
@@ -17,6 +28,7 @@ function App() {
         >
           Learn React
         </a>
+        <button onClick={login} >ログイン</button>
       </header>
     </div>
   );
