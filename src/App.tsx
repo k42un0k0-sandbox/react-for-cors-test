@@ -1,17 +1,23 @@
 import logo from './logo.svg';
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import './App.css';
 import { useCallback } from 'react';
 
-const params = {
+const params: AxiosRequestConfig & { domain: string, body: any } = {
   domain: "localhost:8080",
+  withCredentials: false,
   headers: {},
   body: { username: "hello", password: "world" }
 }
 
 function App() {
-  const login = useCallback(() => {
-    axios.post(`http://${params.domain}/login`, params.body, { headers: params.headers }).then((res) => console.log(res))
+  const login = useCallback(async () => {
+    try {
+      const res = await axios.post(`http://${params.domain}/login`, params.body, { withCredentials: params.withCredentials, headers: params.headers });
+      console.log(res);
+    } catch (e) {
+      console.error(e);
+    }
   }, [])
   return (
     <div className="App">
